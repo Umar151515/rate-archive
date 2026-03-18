@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import zipfile
 from http import client
 from datetime import datetime, timedelta, timezone
 
@@ -82,6 +83,11 @@ def main():
 
     conn.commit()
     conn.close()
+
+    with zipfile.ZipFile('currency_history_json.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipf:
+        zipf.write('currency_history.json', arcname='currency_history.json')
+    with zipfile.ZipFile('currency_history_db.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zipf:
+        zipf.write('currency_history.db', arcname='currency_history.db')
 
 if __name__ == "__main__":
     main()
